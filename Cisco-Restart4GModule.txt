@@ -1,19 +1,19 @@
-	event manager applet restart_4g
-	event syslog pattern " %LINEPROTO-5-UPDOWN: Line protocol on Interface Cellular0/2/0, changed state to down" maxrun 180
-	action 1.0 syslog msg "Cellular0/2/0 is down, waiting for 60 seconds in case it comes back up"
-	action 1.1 wait 60
-	action 2 cli command "enable"
-	action 3 cli command "show interface Cellular0/2/0 | include line protocol"
-	action 4 regexp "line protocol is (\\w+)" "$_cli_result" match state
-	action 5 if $state eq "up"
-	action 6 syslog msg "Cellular0/2/0 is back up, no action needed"
-	action 7 else
-	action 8 syslog msg "Cellular0/2/0 is still down, executing script"
-	action 9 cli command "config t"
-	action 9.1 cli command "interface Cellular0/2/0"
-	action 9.2 cli command "shut"
-	action 9.3 wait 5
-	action 9.4 cli command "no shutdown"
-	action 9.5 cli command "end"
-	action 9.6 syslog msg "Cellular0/2/0 has been restarted"
-	action 9.7 end
+event manager applet restart_4g
+event syslog pattern " %LINEPROTO-5-UPDOWN: Line protocol on Interface Cellular0/2/0, changed state to down" maxrun 180
+action 1.0 syslog msg "Cellular0/2/0 is down, waiting for 60 seconds in case it comes back up"
+action 1.1 wait 60
+action 2 cli command "enable"
+action 3 cli command "show interface Cellular0/2/0 | include line protocol"
+action 4 regexp "line protocol is (\\w+)" "$_cli_result" match state
+action 5 if $state eq "up"
+action 6 syslog msg "Cellular0/2/0 is back up, no action needed"
+action 7 else
+action 8 syslog msg "Cellular0/2/0 is still down, executing script"
+action 9 cli command "config t"
+action 9.1 cli command "interface Cellular0/2/0"
+action 9.2 cli command "shut"
+action 9.3 wait 5
+action 9.4 cli command "no shutdown"
+action 9.5 cli command "end"
+action 9.6 syslog msg "Cellular0/2/0 has been restarted"
+action 9.7 end
