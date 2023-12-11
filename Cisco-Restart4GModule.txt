@@ -4,8 +4,8 @@ action 1.0 syslog msg "Cellular0/2/0 is down, waiting for 60 seconds in case it 
 action 1.1 wait 60
 action 2 cli command "enable"
 action 3 cli command "show interface Cellular0/2/0 | include line protocol"
-action 4 regexp "line protocol is (\\w+)" "$_cli_result" match state
-action 5 if $state eq "up"
+action 4 regexp "line protocol is (\w+)" $_cli_result
+action 5 if $_cli_result eq "up"
 action 6 syslog msg "Cellular0/2/0 is back up, no action needed"
 action 7 else
 action 8 syslog msg "Cellular0/2/0 is still down, executing script"
